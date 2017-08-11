@@ -20,7 +20,7 @@ class LessonController extends Controller
         3. Linking db structure to API output
         4. no way to signal response/headers code
          */
-        $lessons = Lesson::all();
+        $lessons = Lesson::orderBy('title', 'asc')->get();
 
         return response()->json([
             'data' => $this->transformCollection($lessons),
@@ -45,7 +45,22 @@ class LessonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        info($request);
+        $lesson = Lesson::create([
+            'title' => $request->title,
+            'body' => $request->body,
+            'image' => $request->image,
+            'some_bool' => $request->some_bool
+        ]);
+
+        if (!$lesson) {
+            return response()->json([
+                'message' => 'Failed To Insert Data',
+            ], 404);
+        }
+        return response()->json([
+            'message' => 'Data Successfully Inserted',
+        ], 200);
     }
 
     /**
@@ -89,7 +104,18 @@ class LessonController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        info("request is ".$request. " id is ".$id);
+        $lesson = Lesson::find($id);
+
+        $lesson->title = $request->title;
+        $lesson->body = $request->body;
+        $lesson->image = $request->image;
+        $lesson->some_bool = $request->some_bool;
+
+        $lesson->save();
+        return response()->json([
+                'message' => "Successfully updated",
+            ], 200);
     }
 
     /**
@@ -100,7 +126,11 @@ class LessonController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Lesson::destroy($id);
+
+        return response()->json([
+            'message' => "Successfully deleted",
+        ], 200);
     }
 
     public function transformCollection($lessons)
@@ -111,9 +141,11 @@ class LessonController extends Controller
     private function transform($lesson)
     {
         return [
+            'id' => $lesson['id'],
             'title'  => $lesson['title'],
             'body'   => $lesson['body'],
             'active' => (boolean)$lesson['some_bool'],
+            'image'  => $lesson['image'],
         ];
     }
 }

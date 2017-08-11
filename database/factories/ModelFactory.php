@@ -27,6 +27,7 @@ $factory->define(App\Lesson::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->name,
         'body' => $faker->text,
+        'image' => $faker->imageUrl(640, 840, null, true, 'Faker', true),
         'some_bool' => $faker->numberBetween($min = 0, $max = 1)
     ];
 });
