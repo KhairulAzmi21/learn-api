@@ -15,6 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix'=>'api/v1'], function () {
+
     Route::resource('lessons', 'LessonController');
-});
+    Route::resource('/user', 'UsersController');
+    Route::resource('/religion', 'ReligionController');
+    Route::resource('/race', 'RaceController');
+    Route::resource('/state', 'StateController');
+    Route::resource('/gender', 'GenderController');
+    Route::resource('/status', 'StatusController');
+    Route::resource('/property', 'ProperyController');

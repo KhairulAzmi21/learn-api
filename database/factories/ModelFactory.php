@@ -18,8 +18,14 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
+        'password' => bcrypt('secret'),
         'remember_token' => str_random(10),
+        'state_id' => $faker->numberBetween($min = 1, $max = 17),
+        'gender_id'=> $faker->numberBetween($min = 1, $max = 2),
+        'age'=> $faker->numberBetween($min = 20, $max = 40),
+        'status_id'=> $faker->numberBetween($min = 1, $max = 3),
+        'race_id'=> $faker->numberBetween($min = 1, $max = 4),
+        'religion_id'=> $faker->numberBetween($min = 1, $max = 5)
     ];
 });
 
